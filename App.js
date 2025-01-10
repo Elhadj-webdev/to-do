@@ -13,13 +13,39 @@ function validateForm() {
            
            newTask.innerText = `${taskText} - Échéance : ${dueDate} - ${Optioncategori} - ${priority}`; 
 
-           const deleteButton = document.createElement('button'); deleteButton.textContent = 'supprimer';
+           const deleteButton = document.createElement('button'); 
+           deleteButton.textContent = 'supprimer';
+            deleteButton.onclick = function() { 
+              taskListe.removeChild(newTask); 
+            };
 
-            deleteButton.onclick = function() { taskListe.removeChild(newTask); };
+            const ediButton = document.createElement('button');
+            ediButton.textContent = 'Modifier';
+            ediButton.onclick = () => {
+              const newTaskTask = prompt('Modifier la tâche:', taskText);
+              if (newTaskTask !== null) {
+                newTask.firstChild.textContent = newTaskTask;
+              }
+            };
 
+            newTask.appendChild(ediButton);
             newTask.appendChild(deleteButton); 
-            newTask.onclick = function() { newTask.classList.toggle('completed'); };
+
+            newTask.onclick = function() { 
+              newTask.classList.toggle('completed'); 
+            };
+
+            newTask.onclick = function(event) {
+              if (event.target !== ediButton && event.target !== deleteButton) {
+                newTask.classList.toggle('completed');
+              }
+            }
+
+
             taskListe.appendChild(newTask); 
+
+           
+
 
               taskInput.value = '';
               dueDateInput.value = '';
